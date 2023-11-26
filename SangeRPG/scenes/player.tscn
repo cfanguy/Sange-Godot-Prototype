@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://dtfknuiy5ui3t"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_5aj1b"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_pnp0k"]
 [ext_resource type="Texture2D" uid="uid://dr3685cldeif5" path="res://art/characters/Sange_Flattened256.png" id="3_wfkp8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q4kyv"]
@@ -153,7 +153,8 @@ radius = 18.0
 height = 200.0
 
 [node name="player" type="CharacterBody2D"]
-script = ExtResource("1_5aj1b")
+collision_layer = 3
+script = ExtResource("1_pnp0k")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)

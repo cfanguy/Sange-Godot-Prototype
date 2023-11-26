@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://1njtrwd5mm6d"]
+[gd_scene load_steps=7 format=3 uid="uid://1njtrwd5mm6d"]
 
 [ext_resource type="Texture2D" uid="uid://unx5vplad6qu" path="res://art/tilesets/TileSprites.png" id="1_v5aai"]
 [ext_resource type="PackedScene" uid="uid://dtfknuiy5ui3t" path="res://scenes/player.tscn" id="2_qwg3d"]
+[ext_resource type="PackedScene" uid="uid://b607sh2bm8c3c" path="res://scenes/slime.tscn" id="3_bv4nq"]
+[ext_resource type="PackedScene" uid="uid://svhidvp8bhy1" path="res://scenes/bat.tscn" id="4_p5500"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nlacb"]
 texture = ExtResource("1_v5aai")
@@ -260,3 +262,9 @@ position = Vector2(117, 123)
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="player"]
 position = Vector2(-117, -123)
 remote_path = NodePath("../../Camera2D")
+
+[node name="slime" parent="." instance=ExtResource("3_bv4nq")]
+position = Vector2(601, 1634)
+
+[node name="slime2" parent="." instance=ExtResource("4_p5500")]
+position = Vector2(2283, 710)
