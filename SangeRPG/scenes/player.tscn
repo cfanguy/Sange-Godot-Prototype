@@ -1,7 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://dtfknuiy5ui3t"]
+[gd_scene load_steps=30 format=3 uid="uid://dtfknuiy5ui3t"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_pnp0k"]
+[ext_resource type="Texture2D" uid="uid://itv6vwf5xox8" path="res://art/characters/Sange_DownSwing256.png" id="3_s6l17"]
 [ext_resource type="Texture2D" uid="uid://dr3685cldeif5" path="res://art/characters/Sange_Flattened256.png" id="3_wfkp8"]
+[ext_resource type="Texture2D" uid="uid://dgu6tgwt6bt84" path="res://art/characters/Sange_UpSwing256.png" id="4_mqysp"]
+[ext_resource type="Texture2D" uid="uid://dt5igo8q5b3ij" path="res://art/characters/Sange_SideSwing256.png" id="5_l3ka1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q4kyv"]
 atlas = ExtResource("3_wfkp8")
@@ -152,6 +155,104 @@ animations = [{
 radius = 18.0
 height = 200.0
 
+[sub_resource type="Animation" id="Animation_5y81e"]
+resource_name = "left_swing"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftAction:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_dsyei"]
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UpAction:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_vemfp"]
+resource_name = "right_swing"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RightAction:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightAction:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(100, -14)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RightAction:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_ywg8m"]
+resource_name = "down_swing"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DownAction:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu3g"]
+_data = {
+"down_swing": SubResource("Animation_ywg8m"),
+"left_swing": SubResource("Animation_5y81e"),
+"right_swing": SubResource("Animation_vemfp"),
+"up_swing": SubResource("Animation_dsyei")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hbwbq"]
+radius = 200.25
+
 [node name="player" type="CharacterBody2D"]
 collision_layer = 3
 script = ExtResource("1_pnp0k")
@@ -164,3 +265,47 @@ autoplay = "down_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_b2b7f")
+
+[node name="DownAction" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_s6l17")
+offset = Vector2(2.08165e-12, 80)
+hframes = 3
+frame = 2
+
+[node name="UpAction" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_mqysp")
+offset = Vector2(2.08165e-12, -56)
+hframes = 3
+frame = 2
+
+[node name="LeftAction" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_l3ka1")
+offset = Vector2(-101, -14)
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="RightAction" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_l3ka1")
+offset = Vector2(100, -14)
+flip_h = true
+hframes = 2
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpu3g")
+}
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_hbwbq")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="HitBox" to="." method="_on_hit_box_body_exited"]
