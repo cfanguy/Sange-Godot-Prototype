@@ -1,73 +1,36 @@
 extends CharacterBody2D
 
-
 const speed = 400
-var direction = "down"
-var is_attacking = false
-var enemy = null
+var last_direction = Vector2.ZERO
+var animated_sprite
 
-@onready var anim = $AnimatedSprite2D
+func _ready():
+	animated_sprite = $AnimatedSprite2D
 
-func _physics_process(_delta):
-	handleInput()
-	updateAnim()
-	move_and_slide()
+func _physics_process(delta):
+
+	var direction = Input.get_vector("ui_left", "ui_right",
+		"ui_up", "ui_down").normalized()
+
+	velocity = direction * speed
 	
-func handleInput():
-	var moveDirection = Input.get_vector("move_left", "move_right",
-	"move_up", "move_down",)
-	velocity = moveDirection * speed
-	if Input.is_action_pressed("attack"):
-		is_attacking = true
-		$AnimatedSprite2D.visible = false
+	if direction != Vector2.ZERO:
+		last_direction = direction
 		
-		if enemy is CharacterBody2D:
-			enemy.visible = false
-		
-		if direction == "down":
-			$DownAction.visible = true
-			$AnimationPlayer.play("down_swing")
-		elif direction == "up":
-			$UpAction.visible = true
-			$AnimationPlayer.play("up_swing")
-		elif direction == "side":
-			if(anim.flip_h):
-				$RightAction.visible = true
-				$AnimationPlayer.play("right_swing")
-			else:
-				$LeftAction.visible = true
-				$AnimationPlayer.play("left_swing")
-
-func updateAnim():
-	if velocity.length() == 0:
-		if anim.is_playing():
-			anim.stop()
-		anim.play(direction + "_idle")
+	if direction.x != 0:
+		animated_sprite.play("walk_left")
+	elif direction.y < 0:
+		animated_sprite.play("walk_up")
+	elif direction.y > 0:
+		animated_sprite.play("walk_down")
 	else:
-		direction = "down"
-		if velocity.x < 0 :
-			direction = "side"
-			anim.flip_h = false
-		elif velocity.x > 0:
-			direction = "side"
-			anim.flip_h = true
-		elif velocity.y < 0:
-			direction = "up"
+		if last_direction.x != 0:
+			animated_sprite.play("idle_left")
+		elif last_direction.y < 0:
+			animated_sprite.play("idle_up")
+		elif last_direction.y > 0:
+			animated_sprite.play("idle_down")
+	
+	animated_sprite.flip_h = last_direction.x > 0
 
-		anim.play(direction + "_walk")
-
-func _on_animation_player_animation_finished(anim_name):
-	is_attacking = false
-	$AnimationPlayer.stop()
-	$DownAction.visible = false
-	$UpAction.visible = false
-	$LeftAction.visible = false
-	$RightAction.visible = false
-	$AnimatedSprite2D.visible = true
-
-func _on_hit_box_body_entered(body):
-	enemy = body
-
-
-func _on_hit_box_body_exited(body):
-	enemy = null
+	move_and_slide()
