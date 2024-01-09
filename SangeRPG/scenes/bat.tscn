@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d258u0t11ciu8"]
+[gd_scene load_steps=15 format=3 uid="uid://d258u0t11ciu8"]
 
 [ext_resource type="Script" path="res://scripts/bat.gd" id="1_2hlo8"]
 [ext_resource type="Texture2D" uid="uid://dcnbmwpsa67r1" path="res://art/characters/bat-spritesheet.png" id="1_06km2"]
@@ -76,6 +76,12 @@ animations = [{
 radius = 20.0
 height = 60.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_tiobn"]
+radius = 45.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v2dt5"]
+radius = 477.34
+
 [node name="bat" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 2
@@ -88,3 +94,22 @@ autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_3th1f")
+
+[node name="bat_hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bat_hitbox"]
+shape = SubResource("CircleShape2D_tiobn")
+
+[node name="territory" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="territory"]
+shape = SubResource("CircleShape2D_v2dt5")
+
+[connection signal="body_entered" from="bat_hitbox" to="." method="_on_bat_hitbox_body_entered"]
+[connection signal="body_exited" from="bat_hitbox" to="." method="_on_bat_hitbox_body_exited"]
+[connection signal="body_entered" from="territory" to="." method="_on_territory_body_entered"]
+[connection signal="body_exited" from="territory" to="." method="_on_territory_body_exited"]

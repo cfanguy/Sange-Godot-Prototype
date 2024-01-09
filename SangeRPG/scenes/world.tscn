@@ -136,14 +136,8 @@ position = Vector2(2028, 1968)
 [node name="bat2" parent="." instance=ExtResource("2_xc0ou")]
 position = Vector2(1352, 1312)
 
-[node name="bat3" parent="." instance=ExtResource("2_xc0ou")]
-position = Vector2(676, 656)
-
 [node name="slime" parent="." instance=ExtResource("4_sh3ec")]
 position = Vector2(556, 2108)
 
 [node name="slime2" parent="." instance=ExtResource("4_sh3ec")]
 position = Vector2(2852, 2484)
-
-[node name="slime3" parent="." instance=ExtResource("4_sh3ec")]
-position = Vector2(3020, 704)
