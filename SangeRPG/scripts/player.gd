@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const speed = 400
+const speed = 500
 var last_direction = Vector2.ZERO
 var animated_sprite
 
