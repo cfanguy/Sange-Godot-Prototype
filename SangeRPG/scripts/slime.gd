@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-var speed = 400
+var speed = 300
 var last_direction = Vector2.ZERO
 var animated_sprite
 var direction_change_timer = 0
@@ -21,6 +21,9 @@ func _physics_process(delta):
 		direction_change_timer = 0
 	
 	velocity = last_direction * speed
+	
+	if last_direction.x != 0:
+		animated_sprite.flip_h = last_direction.x < 0
 	
 	move_and_slide()
 	
