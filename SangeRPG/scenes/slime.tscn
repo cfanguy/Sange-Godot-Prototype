@@ -52,7 +52,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 5.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -69,7 +69,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 5.0
+"speed": 4.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fp2vo"]
@@ -89,7 +89,7 @@ script = ExtResource("1_ne0fr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_svan8")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -112,6 +112,15 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="territory"]
 position = Vector2(0, -38)
 shape = SubResource("CircleShape2D_ni5oy")
+
+[node name="healthbar" type="ProgressBar" parent="."]
+modulate = Color(100, 0, 0, 1)
+offset_left = -35.0
+offset_top = -140.0
+offset_right = 35.0
+offset_bottom = -115.0
+max_value = 50.0
+show_percentage = false
 
 [connection signal="body_entered" from="slime_hitbox" to="." method="_on_slime_hitbox_body_entered"]
 [connection signal="body_exited" from="slime_hitbox" to="." method="_on_slime_hitbox_body_exited"]
